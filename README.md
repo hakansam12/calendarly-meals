@@ -15,7 +15,7 @@ Have you ever struggled to keep a meal planner, or do you cope with finding new 
 **Meal Search Engine**
 > When you are striving for a new meal to try, try out our meal search engine. With it, you can not only search for meals, but you can add the ingredients to your grocery list by clicking on it, you can favorite the recipe, and you can save it to your meal calendar.
 
-Try it out today by clicking [here](https://meads-meal-planner-app.herokuapp.com/)
+Try it out today by clicking [here](https://calendarly-meals.herokuapp.com/)
 
 [API Used](https://www.themealdb.com/api.php)
 
