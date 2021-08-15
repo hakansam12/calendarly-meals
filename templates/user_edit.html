@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {%block title%}{{g.user['first_name']}} {{g.user['last_name']}}{%endblock%}
 {%block content%}
-<h1>Hello World!</h1>
+<h1>You can edit your credentials below</h1>
 <form method="POST">
     {{form.hidden_tag()}}
 

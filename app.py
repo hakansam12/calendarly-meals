@@ -90,11 +90,11 @@ def register_user():
             new_user = User.register(User(**data))
             User.save(new_user)
         except IntegrityError:
-            form.username.errors.append('Username taken. Please pick another')
+            form.username.errors.append('This username was taken. Please choose another one')
             return render_template("register.html", form=form)
             
         do_login(new_user)
-        flash("Welcome! Successfully Created Your Account!", "success")
+        flash("Welcome, your account has been created successfully", "success")
         return redirect(f'/users/{new_user.id}/calendar')
     else:
 
@@ -109,17 +109,17 @@ def login_user():
         user = User.login(username, password)
         if user:
             do_login(user)
-            flash(f"Welcome back {user.username}!", "success")
+            flash(f"Welcome back {user.username}", "success")
             return redirect(f'/users/{g.user["id"]}/calendar')
         else:
-            form.username.errors = ['Invalid username/password']
+            form.username.errors = ['I am unable to find that username/password combination']
 
     return render_template('login.html', form=form)
 
 @app.route('/logout')
 def logout_user():
     do_logout()
-    flash("Successfully logged out", "primary")
+    flash("You are logged out successfully", "primary")
     return redirect('/')
 
 
@@ -185,7 +185,7 @@ def meal_calendar(user_id):
     if check_user:
         return render_template("user_meal_calendar.html")
     else:
-        flash("Access Denied!", "danger")
+        flash("You don't access to enter this room", "danger")
         return redirect('/')
 
 
@@ -238,7 +238,7 @@ def add_recipe(user_id, meal_id, meal_name):
         if form.validate_on_submit():
             new_meal = Calendar(user_id=user_id, meal_id=meal_id, meal_name=meal_name, selected_date=form.date.data)
             Calendar.save(new_meal)
-            flash("Saved meal to calendar", "success")
+            flash("You successfully saved your meal to calendar", "success")
             return redirect(f'/users/{user_id}/meals/{meal_id}/view/{meal_name}')
         else:
             return render_template('create_meal_calendar.html', form=form, meal_id=meal_id, meal_name=meal_name)
@@ -273,7 +273,7 @@ def shopping_list(user_id):
             return render_template('user_shopping_list.html', form=form, todo_list=todo_list)
     else:
         return redirect("/")
-#Ended here!!
+
 @app.route('/users/<int:user_id>/shopping-list/<int:list_id>/delete', methods=['POST'])
 def delete_todo(list_id, user_id):
     check_user = do_user_check(user_id)
@@ -290,7 +290,7 @@ def add_todo(user_id):
     if check_user:
         new_todo = List(user_id=user_id, item=request.json['ingredient'])
         List.save(new_todo)
-        flash("Added to grocery list", "success")
+        flash("You successfully added to shopping list", "success")
         return redirect('/')
     else:
         return redirect('/')
@@ -358,7 +358,7 @@ def adding_saved_meal(user_id, meal_id, meal_name):
     if check_user:
         saved_meal = Meal(user_id=user_id, meal_id=meal_id, meal_name=meal_name, meal_image=request.json['meal_image'])
         Meal.save(saved_meal)
-        flash("Meal saved!", "success")
+        flash("You saved the meal successfully", "success")
         return redirect(f'/users/{user_id}/meals/{meal_id}/view/{meal_name}')
     else:
         return redirect("/")
@@ -369,7 +369,7 @@ def deleting_saved_meal(user_id, meal_id):
     if check_user:
         meal = Meal.query.filter(Meal.meal_id == meal_id, Meal.user_id == user_id).first()
         Meal.delete(meal)
-        flash(f"Successfully deleted", "success")
+        flash(f"You successfully deleted the meal", "success")
         return redirect(f'/users/{user_id}/saved-meals')
     else:
         return redirect("/")
